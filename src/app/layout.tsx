@@ -26,15 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth focus:scroll-auto">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex font-[family-name:var(--font-geist-sans)]">
-          <main>
-            <Layout>{children}</Layout>
-          </main>
-        </div>
+        <main>{children}</main>
       </body>
     </html>
   );
