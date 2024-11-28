@@ -23,7 +23,6 @@ import {
 import { cn } from "./utils";
 import {
   BoltIcon,
-  BuildingOffice2Icon,
   CircleStackIcon,
   Cog8ToothIcon,
   ComputerDesktopIcon,
