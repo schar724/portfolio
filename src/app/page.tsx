@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import {
   Dialog,
   DialogPanel,
@@ -225,11 +225,45 @@ const footerNavigation = {
   ],
 };
 
+const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  // Extract form data from the event target
+  const formData = new FormData(e.currentTarget);
+
+  // Convert FormData to a plain object
+  const data = Object.fromEntries(formData.entries());
+
+  console.log("Form data:", data);
+
+  try {
+    const response = await fetch("https://api.vercel.app/route", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data), // Send data as JSON
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log("Success:", result.message);
+      // Handle success, e.g., reset the form or show a success message
+    } else {
+      const error = await response.json();
+      console.error("Error:", error.error);
+      // Handle server errors
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    // Handle network errors
+  }
+};
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="bg-white scroll-smooth">
+    <div className="scroll-smooth">
       {/* Header */}
       <header className="absolute inset-x-0 top-0 z-50">
         <nav
@@ -274,7 +308,7 @@ export default function Example() {
           className="lg:hidden"
         >
           <div className="fixed inset-0 z-50" />
-          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
+          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-[#140202]  px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
@@ -314,7 +348,7 @@ export default function Example() {
 
       <main>
         {/* Hero section */}
-        <div className="relative isolate overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20">
+        <div className="relative isolate overflow-hidden bg-[#140202] pb-16 pt-14 sm:pb-20 h-dvh">
           <div className="absolute inset-0 -z-10 size-full object-cover" />
           <div
             aria-hidden="true"
@@ -325,7 +359,7 @@ export default function Example() {
                 clipPath:
                   "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
               }}
-              className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+              className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-red-950 to-red-400 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
             />
           </div>
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -353,7 +387,7 @@ export default function Example() {
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a
                     href="#"
-                    className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                    className="rounded-md bg-red-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-700"
                   >
                     Get started
                   </a>
@@ -392,7 +426,7 @@ export default function Example() {
               />
               <img
                 alt="SavvyCal"
-                src="/solinasLogo.png"
+                src="/lokiLogo.png"
                 width={158}
                 height={48}
                 className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
@@ -415,19 +449,16 @@ export default function Example() {
                 clipPath:
                   "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
               }}
-              className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+              className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-red-950 to-red-400 opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
             />
           </div>
         </div>
 
         {/* Feature section */}
-        <div id="services" className="mt-32 sm:mt-56">
+        <div id="services" className="mt-20 sm:mt-32">
           <div className="mx-auto max-w-2xl sm:text-center">
-            <h2 className="text-base/7 font-semibold text-indigo-600">
-              Services
-            </h2>
             <p className="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-balance sm:text-5xl">
-              Everything you need to grow online, from websites to mobile apps.
+              Services
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-7xl px-6 sm:mt-20 md:mt-24 lg:px-8">
@@ -437,7 +468,7 @@ export default function Example() {
                   <dt className="inline font-semibold text-gray-900">
                     <feature.icon
                       aria-hidden="true"
-                      className="absolute left-1 top-1 size-5 text-indigo-600"
+                      className="absolute left-1 top-1 size-5 text-red-900"
                     />
                     {feature.name}
                   </dt>{" "}
@@ -451,7 +482,7 @@ export default function Example() {
         {/* Testimonial section */}
         <div
           id="about"
-          className="relative z-10 mt-32 bg-gray-900 pb-20 sm:mt-56 sm:pb-24 xl:pb-0"
+          className="relative z-10 mt-20 bg-[#140202] pb-20 sm:mt-32 sm:pb-24 xl:pb-0"
         >
           <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
             <div className="absolute left-[calc(50%-19rem)] top-[calc(50%-36rem)] transform-gpu blur-3xl">
@@ -460,7 +491,7 @@ export default function Example() {
                   clipPath:
                     "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
                 }}
-                className="aspect-[1097/1023] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-25"
+                className="aspect-[1097/1023] w-[68.5625rem] bg-gradient-to-r from-red-950 to-red-400 opacity-25"
               />
             </div>
           </div>
@@ -524,7 +555,7 @@ export default function Example() {
         {/* Pricing section */}
         <div
           id="pricing"
-          className="relative isolate mt-32 bg-white px-6 sm:mt-56 lg:px-8"
+          className="relative isolate mt-32 px-6 sm:mt-56 lg:px-8"
         >
           <div
             aria-hidden="true"
@@ -535,15 +566,12 @@ export default function Example() {
                 clipPath:
                   "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
               }}
-              className="mx-auto aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
+              className="mx-auto aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-black to-gray-300 opacity-30"
             />
           </div>
           <div className="mx-auto max-w-2xl sm:text-center">
-            <h2 className="text-base/7 font-semibold text-indigo-600">
-              Packages
-            </h2>
             <p className="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-balance sm:text-5xl">
-              Choose the right package for the next step in your business
+              Packages
             </p>
           </div>
           <div className="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-3">
@@ -552,7 +580,7 @@ export default function Example() {
                 key={tier.id}
                 className={cn(
                   tier.featured
-                    ? "relative bg-gray-900 shadow-xl"
+                    ? "relative bg-[#140202] shadow-xl"
                     : "bg-white/60 sm:mx-8 lg:mx-0 shadow-md",
                   tier.featured
                     ? ""
@@ -568,7 +596,7 @@ export default function Example() {
                 <h3
                   id={tier.id}
                   className={cn(
-                    tier.featured ? "text-indigo-400" : "text-indigo-600",
+                    tier.featured ? "text-red-800" : "text-red-900",
                     "text-base/7 font-semibold",
                   )}
                 >
@@ -616,7 +644,7 @@ export default function Example() {
                       <CheckIcon
                         aria-hidden="true"
                         className={cn(
-                          tier.featured ? "text-indigo-400" : "text-indigo-600",
+                          tier.featured ? "text-red-800" : "text-red-900",
                           "h-6 w-5 flex-none",
                         )}
                       />
@@ -629,8 +657,8 @@ export default function Example() {
                   aria-describedby={tier.id}
                   className={cn(
                     tier.featured
-                      ? "bg-indigo-500 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline-indigo-500"
-                      : "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300 focus-visible:outline-indigo-600",
+                      ? "bg-red-800 text-white shadow-sm hover:bg-red-700 focus-visible:outline-red-700"
+                      : "text-red-900 ring-1 ring-inset ring-red-700 hover:ring-red-500 focus-visible:outline-red-800",
                     "mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:mt-10",
                   )}
                 >
@@ -642,7 +670,7 @@ export default function Example() {
         </div>
 
         {/* Contact Section*/}
-        <div className="relative isolate overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20 mt-36 lg:mt-56">
+        <div className="relative isolate overflow-hidden bg-[#140202] pb-16 pt-14 sm:pb-20 mt-36 lg:mt-56 h-dvh">
           <div className="absolute inset-0 -z-10 size-full object-cover" />
           <div
             aria-hidden="true"
@@ -653,7 +681,7 @@ export default function Example() {
                 clipPath:
                   "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
               }}
-              className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+              className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-red-950 to-red-400 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
             />
           </div>
           <div className="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-2">
@@ -677,7 +705,7 @@ export default function Example() {
                     </dt>
                     <dd>
                       <a
-                        href="tel:+1 (555) 234-5678"
+                        href="tel:+1 (403) 680-4131"
                         className="hover:text-white"
                       >
                         +1 (403) 680-4131
@@ -705,7 +733,7 @@ export default function Example() {
               </div>
             </div>
             <form
-              action="#"
+              onSubmit={handleSubmit}
               method="POST"
               className="px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48"
             >
@@ -724,7 +752,7 @@ export default function Example() {
                         name="first-name"
                         type="text"
                         autoComplete="given-name"
-                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-red-700 sm:text-sm/6"
                       />
                     </div>
                   </div>
@@ -741,7 +769,7 @@ export default function Example() {
                         name="last-name"
                         type="text"
                         autoComplete="family-name"
-                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-red-700 sm:text-sm/6"
                       />
                     </div>
                   </div>
@@ -758,7 +786,7 @@ export default function Example() {
                         name="email"
                         type="email"
                         autoComplete="email"
-                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-red-700 sm:text-sm/6"
                       />
                     </div>
                   </div>
@@ -775,7 +803,7 @@ export default function Example() {
                         name="phone-number"
                         type="tel"
                         autoComplete="tel"
-                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-red-700 sm:text-sm/6"
                       />
                     </div>
                   </div>
@@ -791,7 +819,7 @@ export default function Example() {
                         id="message"
                         name="message"
                         rows={4}
-                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm/6"
+                        className="block w-full rounded-md border-0 bg-white/5 px-3.5 py-2 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-red-700 sm:text-sm/6"
                         defaultValue={""}
                       />
                     </div>
@@ -800,7 +828,7 @@ export default function Example() {
                 <div className="mt-8 flex justify-end">
                   <button
                     type="submit"
-                    className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                    className="rounded-md bg-red-900 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-800"
                   >
                     Send message
                   </button>
@@ -848,7 +876,7 @@ export default function Example() {
 
       {/* Footer */}
 
-      <footer className="bg-gray-900 mt-16">
+      <footer className="bg-[#140202] mt-16">
         <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
           <div className="flex flex-col items-center space-y-6 sm:flex-row sm:justify-between sm:space-y-0">
             {/* Branding */}
